@@ -6,7 +6,7 @@
         <artifactId>citizen-registry</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>citizen-service</artifactId>
+    <artifactId>citizen-client</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
