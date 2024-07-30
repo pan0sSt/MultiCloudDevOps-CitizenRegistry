@@ -21,7 +21,7 @@ jobs:
 
     - name: Build with Maven
       id: build-mvn
-      run: mvn clean install
+      run: mvn
 
     - name: Archive test reports
       if: always() && steps.build-mvn.outcome == 'success'
