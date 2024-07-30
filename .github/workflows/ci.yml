@@ -80,8 +80,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/citizen-registry-0.1.jar
-        asset_name: citizen-registry-0.1.jar
+        asset_path: citizen-service/target/citizen-service-1.0-SNAPSHOT.jar
+        asset_name: citizen-service-1.0-SNAPSHOT.jar
         asset_content_type: application/java-archive
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
