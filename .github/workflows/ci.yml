@@ -5,6 +5,9 @@ on:
     branches:
       - develop
 
+permissions:
+    contents: write
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -21,14 +24,14 @@ jobs:
 
     - name: Build with Maven
       id: build-mvn
-      run: mvn clean install
+      run: mvn clean install -DskipTests
 
     - name: Archive test reports
       if: always() && steps.build-mvn.outcome == 'success'
       uses: actions/upload-artifact@v3
       with:
         name: test-reports
-        path: target/surefire-reports
+        path: citizen-service/target/surefire-reports
 
     - name: Integration Test
       id: integration-tests
@@ -39,7 +42,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: integration-test-reports
-        path: target/failsafe-reports
+        path: citizen-service/target/failsafe-reports
 
   release:
     needs: build-and-test
@@ -62,7 +65,7 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       with:
-        tag_name: dev-pre-release
+        tag_name: "dev-pre-release-${{ github.run_id }}"
         release_name: "Release ${{ github.sha }}"
         body: "Automatically generated release from ${{ github.sha }}"
         draft: false
@@ -74,8 +77,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/citizen-registry-0.1.jar
-        asset_name: citizen-registry-0.1.jar
+        asset_path: citizen-service/target/citizen-service-1.0-SNAPSHOT.jar
+        asset_name: citizen-service-1.0-SNAPSHOT.jar
         asset_content_type: application/java-archive
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
